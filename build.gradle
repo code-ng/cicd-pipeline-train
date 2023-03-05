@@ -1,0 +1,34 @@
+plugins {
+  id "com.github.node-gradle.node" version "3.5.1"
+}
+
+node {
+  download = true
+  version = "12.18.2"
+}
+
+task build
+
+
+
+task zip(type: Zip) {
+    from ("C:\\Users\\nirup\\Documents\\practice\\clone\\cicd-pipeline-train") {
+        include "*"
+        include "bin/**"
+        include "data/**"
+        include "node_modules/**"
+        include "public/**"
+        include "routes/**"
+        include "views/**"
+        }
+	destinationDirectory = file("C:\\Users\\nirup\\Documents\\practice\\clone\\cicd-pipeline-train\\dist")
+    archiveBaseName = "trainSchedule"
+}
+
+build.dependsOn zip
+zip.dependsOn npm_build    
+
+build.dependsOn npm_build
+npm_build.dependsOn npmInstall
+npm_build.dependsOn npm_test
+npm_test.dependsOn npmInstall
